@@ -274,6 +274,7 @@
     </main>
 
     <script>
+      // --- INIT ---
       const detections = [
         "Bivakmuts gedetecteerd · lage zekerheid",
         "Verdachte houding — analyse vereist",
@@ -301,6 +302,7 @@
         randomizeDetection();
       });
 
+      // --- BASIC UTILS ---
       function randomizeDetection() {
         const det = detections[Math.floor(Math.random() * detections.length)];
         document.getElementById("detectionText").textContent = det;
@@ -328,6 +330,7 @@
         setTimeout(() => el.remove(), 3000);
       }
 
+      // --- OPERATOR FUNCTIONS ---
       function escalate() {
         document.getElementById("prioTag").textContent = "CRITISCH";
         document.getElementById("prioTag").className =
@@ -358,26 +361,34 @@
         }, 2000);
       }
 
-      function switchPerspective(p) {
+      // --- ROLE SWITCH ---
+      function switchPerspective(role) {
         const opControls = document.getElementById("operatorControls");
         const opBtns = document.getElementById("operatorButtons");
         const shPanel = document.getElementById("stakeholderPanel");
+        const btnOp = document.getElementById("btnOp");
+        const btnSt = document.getElementById("btnSt");
 
-        if (p === "stakeholder") {
+        if (role === "stakeholder") {
           shPanel.classList.remove("hidden");
           opControls.classList.add("hidden");
           opBtns.classList.add("hidden");
-          document.getElementById("btnSt").classList.add("bg-primary", "text-black");
-          document.getElementById("btnOp").classList.remove("bg-primary", "text-black");
+          btnSt.classList.add("bg-primary", "text-black");
+          btnOp.classList.remove("bg-primary", "text-black");
+          addTimeline("Perspectief gewijzigd naar Stakeholder", "Systeem");
+          notify("Stakeholdermodus geactiveerd");
         } else {
           shPanel.classList.add("hidden");
           opControls.classList.remove("hidden");
           opBtns.classList.remove("hidden");
-          document.getElementById("btnOp").classList.add("bg-primary", "text-black");
-          document.getElementById("btnSt").classList.remove("bg-primary", "text-black");
+          btnOp.classList.add("bg-primary", "text-black");
+          btnSt.classList.remove("bg-primary", "text-black");
+          addTimeline("Perspectief gewijzigd naar Operator", "Systeem");
+          notify("Operatormodus geactiveerd");
         }
       }
 
+      // --- STAKEHOLDER FUNCTIONS ---
       function submitFeedback() {
         const fb = document.getElementById("feedback").value.trim();
         if (!fb) {
