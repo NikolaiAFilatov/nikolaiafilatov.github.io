@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="nl" class="dark">
   <head>
     <meta charset="utf-8" />
