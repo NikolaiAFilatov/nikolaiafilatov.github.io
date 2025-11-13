@@ -23,6 +23,8 @@
       .cam-placeholder {
         background: linear-gradient(135deg, #0f172a 0%, #0b1220 100%);
         border: 1px dashed rgba(255, 255, 255, 0.04);
+        flex: 1;
+        min-height: 100%;
       }
     </style>
   </head>
@@ -32,19 +34,25 @@
     <header class="bg-gray-800 border-b border-gray-700 px-6 py-4">
       <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center font-bold text-lg">
+          <div
+            class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center font-bold text-lg"
+          >
             ES
           </div>
           <div>
             <h1 class="text-xl font-semibold">EthicalScan — Operationeel Systeem</h1>
-            <p class="text-xs text-gray-400">Veiligheids- en ethiekmonitoringplatform</p>
+            <p class="text-xs text-gray-400">
+              Veiligheids- en ethiekmonitoringplatform
+            </p>
           </div>
         </div>
 
         <div class="flex items-center gap-4">
           <div class="text-sm text-gray-400" id="dateNow"></div>
-          <div id="systemStatus"
-            class="flex items-center gap-2 px-3 py-1 rounded-full text-sm bg-green-500/20 text-green-300">
+          <div
+            id="systemStatus"
+            class="flex items-center gap-2 px-3 py-1 rounded-full text-sm bg-green-500/20 text-green-300"
+          >
             <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
             Systeem: Actief
           </div>
@@ -54,7 +62,9 @@
 
     <main class="max-w-7xl mx-auto px-6 py-6 space-y-6">
       <!-- Intro + role switch -->
-      <section class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <section
+        class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+      >
         <div>
           <h2 class="text-2xl font-bold">Incident Monitoring & Ethiek</h2>
           <p class="text-sm text-gray-400 mt-1">
@@ -63,10 +73,20 @@
         </div>
 
         <div class="flex gap-2">
-          <button onclick="switchPerspective('operator')" id="btnOp"
-            class="px-4 py-2 rounded-lg bg-primary text-black font-medium">🔒 Operator</button>
-          <button onclick="switchPerspective('stakeholder')" id="btnSt"
-            class="px-4 py-2 rounded-lg bg-gray-700 text-gray-200">👥 Stakeholder</button>
+          <button
+            onclick="switchPerspective('operator')"
+            id="btnOp"
+            class="px-4 py-2 rounded-lg bg-primary text-black font-medium"
+          >
+            🔒 Operator
+          </button>
+          <button
+            onclick="switchPerspective('stakeholder')"
+            id="btnSt"
+            class="px-4 py-2 rounded-lg bg-gray-700 text-gray-200"
+          >
+            👥 Stakeholder
+          </button>
         </div>
       </section>
 
@@ -84,94 +104,155 @@
               </div>
 
               <div class="flex items-center gap-2">
-                <button onclick="escalate()" class="px-3 py-1 rounded-lg bg-danger text-black text-sm font-semibold">
+                <button
+                  onclick="escalate()"
+                  class="px-3 py-1 rounded-lg bg-danger text-black text-sm font-semibold"
+                >
                   Escaleer
                 </button>
-                <button onclick="verifyManually()"
-                  class="px-3 py-1 rounded-lg bg-gray-700 text-gray-200 text-sm">
+                <button
+                  onclick="verifyManually()"
+                  class="px-3 py-1 rounded-lg bg-gray-700 text-gray-200 text-sm"
+                >
                   Start menselijke verificatie
                 </button>
               </div>
             </div>
 
             <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div class="md:col-span-2 bg-gray-900 rounded-lg p-3 cam-placeholder relative aspect-video">
-                <div id="camOverlay"
-                  class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div class="text-center">
-                    <div
-                      class="mx-auto w-28 h-28 border-4 rounded-lg border-yellow-500 flex items-center justify-center text-5xl">
-                      👤
+              <!-- CAMERA -->
+              <div class="md:col-span-2 flex items-stretch">
+                <div
+                  class="w-full aspect-square bg-gray-900 rounded-lg p-3 cam-placeholder relative flex items-center justify-center"
+                >
+                  <div
+                    id="camOverlay"
+                    class="absolute inset-0 flex items-center justify-center pointer-events-none"
+                  >
+                    <div class="text-center">
+                      <div
+                        class="mx-auto w-40 h-40 border-4 rounded-lg border-yellow-500 flex items-center justify-center text-6xl"
+                      >
+                        👤
+                      </div>
+                      <div
+                        class="mt-2 text-sm text-yellow-300"
+                        id="cameraTitle"
+                      ></div>
+                      <div
+                        class="mt-1 text-xs text-gray-400"
+                        id="detectionText"
+                      ></div>
                     </div>
-                    <div class="mt-2 text-sm text-yellow-300" id="cameraTitle"></div>
-                    <div class="mt-1 text-xs text-gray-400" id="detectionText"></div>
                   </div>
                 </div>
               </div>
 
+              <!-- INFO -->
               <div class="bg-gray-900 rounded-lg p-3 border border-gray-700">
                 <h4 class="font-semibold">Kerninformatie</h4>
                 <div class="mt-3 space-y-2 text-sm text-gray-300">
-                  <div class="flex justify-between"><span>Locatie</span><span>Voorzijde - Dock</span></div>
-                  <div class="flex justify-between"><span>Tijd</span><span id="timeNow">--:--:--</span></div>
-                  <div class="flex justify-between"><span>AI Betrouwbaarheid</span>
-                    <span id="conf" class="font-semibold text-yellow-300">--%</span></div>
-                  <div class="flex justify-between"><span>Actie</span>
-                    <span id="actionTag" class="text-sm text-gray-300">Wacht op validatie</span></div>
+                  <div class="flex justify-between">
+                    <span>Locatie</span><span>Voorzijde - Dock</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Tijd</span><span id="timeNow"></span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>AI Betrouwbaarheid</span
+                    ><span id="conf" class="font-semibold text-yellow-300"
+                      >68%</span
+                    >
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Actie</span
+                    ><span id="actionTag" class="text-sm text-gray-300"
+                      >Wacht op validatie</span
+                    >
+                  </div>
                 </div>
 
                 <div class="mt-3 pt-3 border-t border-gray-700">
                   <h5 class="text-sm font-medium">Ethische Flags</h5>
-                  <ul id="ethFlags" class="mt-2 text-xs text-gray-400 space-y-1"></ul>
+                  <ul class="mt-2 text-xs text-gray-400 space-y-1" id="flags">
+                    <li>⚠️ Analyse vereist</li>
+                    <li>ℹ️ Publieke ruimte</li>
+                    <li>🔒 Bewaartermijn: 7 dagen</li>
+                  </ul>
                 </div>
               </div>
             </div>
 
-            <div class="mt-4 bg-gray-800/40 rounded-lg p-3 border border-gray-700 text-sm" id="aiAnalysis">
-              <strong>AI Analyse:</strong> Data wordt geladen...
+            <div
+              class="mt-4 bg-gray-800/40 rounded-lg p-3 border border-gray-700 text-sm"
+            >
+              <strong>AI Analyse:</strong>
+              <span id="aiAnalysis"
+                >Model detecteert onregelmatig gedrag. Aanbevolen: menselijke
+                verificatie.</span
+              >
+            </div>
+
+            <div class="mt-4 flex gap-3 text-sm">
+              <button
+                onclick="tagFalsePositive()"
+                class="px-3 py-2 rounded-lg bg-gray-700"
+              >
+                Als vals positief markeren
+              </button>
+              <button
+                onclick="requestLiveness()"
+                class="px-3 py-2 rounded-lg bg-primary text-black"
+              >
+                Start liveness check
+              </button>
+              <button
+                onclick="addAudit('Operator twijfel')"
+                class="px-3 py-2 rounded-lg bg-gray-700"
+              >
+                Voeg audit entry toe
+              </button>
             </div>
           </div>
 
           <!-- Tijdlijn -->
           <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
-            <h3 class="font-semibold mb-3">Tijdlijn</h3>
-            <div id="timeline" class="space-y-2 text-sm text-gray-300"></div>
+            <h3 class="font-semibold">Tijdlijn</h3>
+            <div id="timeline" class="mt-3 space-y-2 text-sm text-gray-300">
+              <div class="flex justify-between">
+                <div>Detectie gestart</div>
+                <div>AI</div>
+              </div>
+            </div>
           </div>
         </section>
 
-        <!-- Sidebar -->
+        <!-- Right column -->
         <aside class="space-y-4">
           <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
-            <h4 class="text-lg font-semibold">Systeem Overzicht</h4>
-            <div class="mt-3 text-sm text-gray-300 space-y-3">
-              <div class="flex justify-between"><span>Actieve camera's</span><span class="font-semibold">14</span></div>
-              <div class="flex justify-between"><span>Open incidenten</span><span class="font-semibold text-yellow-300">3</span></div>
-              <div class="flex justify-between"><span>Uptime</span><span class="font-semibold text-green-300">99%</span></div>
-            </div>
-          </div>
-
-          <!-- Stakeholder acties -->
-          <div id="stakeholderPanel" class="bg-gray-800 rounded-lg p-4 border border-gray-700 hidden">
             <h4 class="text-lg font-semibold">Stakeholder Acties</h4>
-            <div class="mt-3 text-sm text-gray-300">
-              <label class="block text-gray-400 mb-1">Feedback:</label>
-              <textarea id="feedback" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm" rows="3"
-                placeholder="Voer uw opmerkingen in..."></textarea>
-
-              <label class="block text-gray-400 mt-3 mb-1">Beslissing:</label>
-              <select id="decision" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm">
-                <option value="">Kies een beslissing...</option>
-                <option value="goedgekeurd">✅ Goedkeuren</option>
-                <option value="herzien">🔁 Herziening vereist</option>
-                <option value="afgesloten">🗂️ Afsluiten incident</option>
-              </select>
-
-              <div class="flex justify-end gap-2 mt-3">
-                <button onclick="submitStakeholder()" class="px-3 py-1 rounded-lg bg-primary text-black text-sm">
-                  Verstuur
+            <p class="text-sm text-gray-400 mt-1">
+              Geef feedback of keur beslissingen goed.
+            </p>
+            <div class="mt-3">
+              <textarea
+                id="feedback"
+                rows="4"
+                class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm"
+                placeholder="Voer feedback of besluit in..."
+              ></textarea>
+              <div class="mt-2 flex gap-2 justify-end">
+                <button
+                  onclick="stakeholderApprove()"
+                  class="px-3 py-1 rounded-lg bg-success text-black text-sm"
+                >
+                  ✅ Goedkeuren
                 </button>
-                <button onclick="exportReport()" class="px-3 py-1 rounded-lg bg-gray-700 text-sm">
-                  📄 Exporteer rapport
+                <button
+                  onclick="submitFeedback()"
+                  class="px-3 py-1 rounded-lg bg-primary text-black text-sm"
+                >
+                  💬 Verstuur feedback
                 </button>
               </div>
             </div>
@@ -180,79 +261,51 @@
       </div>
     </main>
 
-    <footer class="bg-gray-800 border-t border-gray-700 px-6 py-4 mt-6 text-center text-sm text-gray-400">
-      <p>© 2025 EthicalScan — Operationeel Monitoringplatform</p>
-    </footer>
-
     <script>
       const detections = [
-        { text: "Persoon geïdentificeerd — lage zekerheid", flags: ["👤 Identificatie gestart", "⚠️ Onvolledig beeld"] },
-        { text: "Gezicht gedeeltelijk bedekt — mogelijk masker", flags: ["⚠️ Masker gedetecteerd", "🔒 Privacyzone geactiveerd"] },
-        { text: "Verdachte houding — analyse vereist", flags: ["🕵️ Gedragsafwijking", "⚠️ Lage zekerheid (AI)"] },
-        { text: "Onherkenbaar gezicht — camera obstructie", flags: ["⚠️ Beeldkwaliteit laag", "🔒 Herkenning gedeactiveerd"] },
-        { text: "Geen afwijkingen — routinebeeld", flags: ["✅ Geen ethische flags actief"] }
+        "Bivakmuts gedetecteerd · lage zekerheid",
+        "Verdachte houding — analyse vereist",
+        "Persoon met masker — gedeeltelijke dekking",
+        "Onherkenbaar gezicht — beweging gedetecteerd",
+        "Normale situatie — geen actie nodig",
       ];
 
-      function randomDetection() {
-        const d = detections[Math.floor(Math.random() * detections.length)];
-        document.getElementById("detectionText").textContent = d.text;
-        const flags = document.getElementById("ethFlags");
-        flags.innerHTML = d.flags.map(f => `<li>${f}</li>`).join("");
-        document.getElementById("aiAnalysis").innerHTML =
-          "<strong>AI Analyse:</strong> " + d.text + ". Menselijke verificatie aanbevolen.";
-        const conf = 60 + Math.floor(Math.random() * 30);
-        document.getElementById("conf").textContent = conf + "%";
-        addTimeline("AI-detectie uitgevoerd: " + d.text, "AI");
+      const analysisTexts = [
+        "Model detecteert onregelmatig gedrag.",
+        "Gedragsafwijking waargenomen. Controle aanbevolen.",
+        "Gezichtsdekking aanwezig — beperkte betrouwbaarheid.",
+        "Activiteit conform patroon, validatie lopend.",
+      ];
+
+      let conf = 68;
+      let ethScore = 72;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const now = new Date();
+        document.getElementById("timeNow").textContent = now.toLocaleTimeString();
+        document.getElementById("dateNow").textContent = now.toLocaleDateString();
+        document.getElementById("incidentId").textContent =
+          "2025-" + now.getMonth() + "-" + now.getDate() + "-001";
+
+        randomizeDetection();
+      });
+
+      function randomizeDetection() {
+        const det = detections[Math.floor(Math.random() * detections.length)];
+        document.getElementById("detectionText").textContent = det;
+        document.getElementById("cameraTitle").textContent =
+          "LIVE · Camera A12 — Voordeur";
+        document.getElementById("aiAnalysis").textContent =
+          analysisTexts[Math.floor(Math.random() * analysisTexts.length)];
       }
 
-      function addTimeline(text, actor) {
-        const t = new Date().toLocaleTimeString("nl-NL");
+      function addTimeline(text, actor = "AI") {
+        const tl = document.getElementById("timeline");
         const div = document.createElement("div");
-        div.innerHTML = `<div class='flex justify-between'><div>${t} — ${text}</div><div>${actor}</div></div>`;
-        document.getElementById("timeline").prepend(div);
-      }
-
-      function escalate() {
-        document.getElementById("prioTag").textContent = "CRITISCH";
-        document.getElementById("prioTag").className = "font-semibold text-red-400";
-        addTimeline("Incident geëscaleerd naar kritisch niveau", "Operator");
-        notify("Incident geëscaleerd");
-      }
-
-      function verifyManually() {
-        document.getElementById("actionTag").textContent = "Validatie gestart";
-        addTimeline("Menselijke verificatie gestart", "Operator");
-        notify("Menselijke verificatie gestart");
-      }
-
-      function switchPerspective(p) {
-        const st = document.getElementById("stakeholderPanel");
-        if (p === "stakeholder") {
-          document.getElementById("btnSt").classList.add("bg-primary", "text-black");
-          document.getElementById("btnOp").classList.remove("bg-primary", "text-black");
-          st.classList.remove("hidden");
-          addTimeline("Stakeholder heeft toegang gekregen tot het incident", "Systeem");
-        } else {
-          document.getElementById("btnOp").classList.add("bg-primary", "text-black");
-          document.getElementById("btnSt").classList.remove("bg-primary", "text-black");
-          st.classList.add("hidden");
-        }
-      }
-
-      function submitStakeholder() {
-        const feedback = document.getElementById("feedback").value.trim();
-        const decision = document.getElementById("decision").value;
-        if (!feedback && !decision) return notify("Voer feedback of een beslissing in.");
-        if (feedback) addTimeline("Feedback ontvangen: " + feedback, "Stakeholder");
-        if (decision) addTimeline("Beslissing genomen: " + decision, "Stakeholder");
-        notify("Stakeholderactie opgeslagen");
-        document.getElementById("feedback").value = "";
-        document.getElementById("decision").value = "";
-      }
-
-      function exportReport() {
-        addTimeline("Incidentrapport geëxporteerd", "Stakeholder");
-        notify("Rapport geëxporteerd (simulatie)");
+        div.className = "flex justify-between";
+        div.innerHTML =
+          `<div>${new Date().toLocaleTimeString()} — ${text}</div><div>${actor}</div>`;
+        tl.appendChild(div);
       }
 
       function notify(msg) {
@@ -264,14 +317,59 @@
         setTimeout(() => el.remove(), 3000);
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("dateNow").textContent = new Date().toLocaleDateString("nl-NL");
-        document.getElementById("timeNow").textContent = new Date().toLocaleTimeString("nl-NL");
-        document.getElementById("incidentId").textContent = Date.now().toString().slice(-6);
-        document.getElementById("cameraTitle").textContent = "LIVE · Camera A12 — Voordeur";
-        randomDetection();
-        switchPerspective("operator");
-      });
+      function escalate() {
+        document.getElementById("prioTag").textContent = "CRITISCH";
+        document.getElementById("prioTag").className =
+          "font-semibold text-red-400";
+        addTimeline("Incident geëscaleerd", "Operator");
+        notify("Escaleer: Beveiliging gewaarschuwd");
+      }
+
+      function verifyManually() {
+        document.getElementById("actionTag").textContent = "Validatie gestart";
+        addTimeline("Menselijke verificatie gestart", "Operator");
+        notify("Menselijke verificatie gestart");
+      }
+
+      function tagFalsePositive() {
+        addTimeline("Incident gemarkeerd als vals positief", "Operator");
+        notify("Gemarkeerd als vals positief");
+      }
+
+      function requestLiveness() {
+        addTimeline("Liveness check gestart", "Operator");
+        notify("Liveness check bezig...");
+        setTimeout(() => {
+          conf = Math.min(95, conf + 12);
+          document.getElementById("conf").textContent = conf + "%";
+          addTimeline("Liveness check geslaagd", "AI");
+          notify("Liveness check geslaagd (score 98%)");
+        }, 2000);
+      }
+
+      function switchPerspective(p) {
+        if (p === "stakeholder") {
+          document.querySelector("aside").classList.remove("hidden");
+        } else {
+          document.querySelector("aside").classList.remove("hidden");
+        }
+      }
+
+      function submitFeedback() {
+        const fb = document.getElementById("feedback").value.trim();
+        if (!fb) {
+          notify("Voer eerst feedback in");
+          return;
+        }
+        addTimeline("Feedback ontvangen: " + fb, "Stakeholder");
+        notify("Feedback verzonden");
+        document.getElementById("feedback").value = "";
+      }
+
+      function stakeholderApprove() {
+        addTimeline("Stakeholder keurde actie goed", "Stakeholder");
+        notify("Actie goedgekeurd");
+      }
     </script>
   </body>
 </html>
