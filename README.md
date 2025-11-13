@@ -1,8 +1,11 @@
+<!DOCTYPE html>
 <html lang="nl" class="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>EthicalScan — Operationeel Systeem</title>
+
+    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -19,6 +22,7 @@
         },
       };
     </script>
+
     <style>
       .cam-placeholder {
         background: linear-gradient(135deg, #0f172a 0%, #0b1220 100%);
@@ -41,12 +45,9 @@
           </div>
           <div>
             <h1 class="text-xl font-semibold">EthicalScan — Operationeel Systeem</h1>
-            <p class="text-xs text-gray-400">
-              Veiligheids- en ethiekmonitoringplatform
-            </p>
+            <p class="text-xs text-gray-400">Veiligheids- en ethiekmonitoringplatform</p>
           </div>
         </div>
-
         <div class="flex items-center gap-4">
           <div class="text-sm text-gray-400" id="dateNow"></div>
           <div
@@ -62,9 +63,7 @@
 
     <main class="max-w-7xl mx-auto px-6 py-6 space-y-6">
       <!-- Intro + role switch -->
-      <section
-        class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
-      >
+      <section class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h2 class="text-2xl font-bold">Incident Monitoring & Ethiek</h2>
           <p class="text-sm text-gray-400 mt-1">
@@ -120,7 +119,6 @@
             </div>
 
             <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <!-- CAMERA -->
               <div class="md:col-span-2 flex items-stretch">
                 <div
                   class="w-full aspect-square bg-gray-900 rounded-lg p-3 cam-placeholder relative flex items-center justify-center"
@@ -135,20 +133,13 @@
                       >
                         👤
                       </div>
-                      <div
-                        class="mt-2 text-sm text-yellow-300"
-                        id="cameraTitle"
-                      ></div>
-                      <div
-                        class="mt-1 text-xs text-gray-400"
-                        id="detectionText"
-                      ></div>
+                      <div class="mt-2 text-sm text-yellow-300" id="cameraTitle"></div>
+                      <div class="mt-1 text-xs text-gray-400" id="detectionText"></div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- INFO -->
               <div class="bg-gray-900 rounded-lg p-3 border border-gray-700">
                 <h4 class="font-semibold">Kerninformatie</h4>
                 <div class="mt-3 space-y-2 text-sm text-gray-300">
@@ -160,15 +151,11 @@
                   </div>
                   <div class="flex justify-between">
                     <span>AI Betrouwbaarheid</span
-                    ><span id="conf" class="font-semibold text-yellow-300"
-                      >68%</span
-                    >
+                    ><span id="conf" class="font-semibold text-yellow-300">68%</span>
                   </div>
                   <div class="flex justify-between">
                     <span>Actie</span
-                    ><span id="actionTag" class="text-sm text-gray-300"
-                      >Wacht op validatie</span
-                    >
+                    ><span id="actionTag" class="text-sm text-gray-300">Wacht op validatie</span>
                   </div>
                 </div>
 
@@ -183,33 +170,19 @@
               </div>
             </div>
 
-            <div
-              class="mt-4 bg-gray-800/40 rounded-lg p-3 border border-gray-700 text-sm"
-            >
+            <div class="mt-4 bg-gray-800/40 rounded-lg p-3 border border-gray-700 text-sm">
               <strong>AI Analyse:</strong>
-              <span id="aiAnalysis"
-                >Model detecteert onregelmatig gedrag. Aanbevolen: menselijke
-                verificatie.</span
-              >
+              <span id="aiAnalysis">Model detecteert onregelmatig gedrag. Aanbevolen: menselijke verificatie.</span>
             </div>
 
             <div id="operatorButtons" class="mt-4 flex gap-3 text-sm">
-              <button
-                onclick="tagFalsePositive()"
-                class="px-3 py-2 rounded-lg bg-gray-700"
-              >
+              <button onclick="tagFalsePositive()" class="px-3 py-2 rounded-lg bg-gray-700">
                 Als vals positief markeren
               </button>
-              <button
-                onclick="requestLiveness()"
-                class="px-3 py-2 rounded-lg bg-primary text-black"
-              >
+              <button onclick="requestLiveness()" class="px-3 py-2 rounded-lg bg-primary text-black">
                 Start liveness check
               </button>
-              <button
-                onclick="addAudit('Operator twijfel')"
-                class="px-3 py-2 rounded-lg bg-gray-700"
-              >
+              <button onclick="addAudit('Operator twijfel')" class="px-3 py-2 rounded-lg bg-gray-700">
                 Voeg audit entry toe
               </button>
             </div>
@@ -218,12 +191,7 @@
           <!-- Tijdlijn -->
           <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
             <h3 class="font-semibold">Tijdlijn</h3>
-            <div id="timeline" class="mt-3 space-y-2 text-sm text-gray-300">
-              <div class="flex justify-between">
-                <div>Detectie gestart</div>
-                <div>AI</div>
-              </div>
-            </div>
+            <div id="timeline" class="mt-3 space-y-2 text-sm text-gray-300"></div>
           </div>
         </section>
 
@@ -231,42 +199,18 @@
         <aside id="stakeholderPanel" class="space-y-4 hidden">
           <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
             <h4 class="text-lg font-semibold">Stakeholder Acties</h4>
-            <p class="text-sm text-gray-400 mt-1">
-              Geef feedback of keur beslissingen goed.
-            </p>
-            <div class="mt-3">
-              <textarea
-                id="feedback"
-                rows="4"
-                class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm"
-                placeholder="Voer feedback of besluit in..."
-              ></textarea>
-              <div class="mt-2 flex flex-wrap gap-2 justify-end">
-                <button
-                  onclick="stakeholderApprove()"
-                  class="px-3 py-1 rounded-lg bg-success text-black text-sm"
-                >
-                  ✅ Goedkeuren
-                </button>
-                <button
-                  onclick="stakeholderReject()"
-                  class="px-3 py-1 rounded-lg bg-danger text-black text-sm"
-                >
-                  ❌ Afkeuren
-                </button>
-                <button
-                  onclick="stakeholderRequestContext()"
-                  class="px-3 py-1 rounded-lg bg-warn text-black text-sm"
-                >
-                  📄 Meer context vragen
-                </button>
-                <button
-                  onclick="submitFeedback()"
-                  class="px-3 py-1 rounded-lg bg-primary text-black text-sm"
-                >
-                  💬 Verstuur feedback
-                </button>
-              </div>
+            <p class="text-sm text-gray-400 mt-1">Geef feedback of keur beslissingen goed.</p>
+            <textarea
+              id="feedback"
+              rows="4"
+              class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm mt-3"
+              placeholder="Voer feedback of besluit in..."
+            ></textarea>
+            <div class="mt-2 flex flex-wrap gap-2 justify-end">
+              <button onclick="stakeholderApprove()" class="px-3 py-1 rounded-lg bg-success text-black text-sm">✅ Goedkeuren</button>
+              <button onclick="stakeholderReject()" class="px-3 py-1 rounded-lg bg-danger text-black text-sm">❌ Afkeuren</button>
+              <button onclick="stakeholderRequestContext()" class="px-3 py-1 rounded-lg bg-warn text-black text-sm">📄 Meer context vragen</button>
+              <button onclick="submitFeedback()" class="px-3 py-1 rounded-lg bg-primary text-black text-sm">💬 Verstuur feedback</button>
             </div>
           </div>
         </aside>
@@ -296,35 +240,28 @@
         const now = new Date();
         document.getElementById("timeNow").textContent = now.toLocaleTimeString();
         document.getElementById("dateNow").textContent = now.toLocaleDateString();
-        document.getElementById("incidentId").textContent =
-          "2025-" + (now.getMonth() + 1) + "-" + now.getDate() + "-001";
-
+        document.getElementById("incidentId").textContent = "2025-" + (now.getMonth() + 1) + "-" + now.getDate() + "-001";
         randomizeDetection();
       });
 
-      // --- BASIC UTILS ---
       function randomizeDetection() {
         const det = detections[Math.floor(Math.random() * detections.length)];
         document.getElementById("detectionText").textContent = det;
-        document.getElementById("cameraTitle").textContent =
-          "LIVE · Camera A12 — Voordeur";
-        document.getElementById("aiAnalysis").textContent =
-          analysisTexts[Math.floor(Math.random() * analysisTexts.length)];
+        document.getElementById("cameraTitle").textContent = "LIVE · Camera A12 — Voordeur";
+        document.getElementById("aiAnalysis").textContent = analysisTexts[Math.floor(Math.random() * analysisTexts.length)];
       }
 
       function addTimeline(text, actor = "AI") {
         const tl = document.getElementById("timeline");
         const div = document.createElement("div");
         div.className = "flex justify-between";
-        div.innerHTML =
-          `<div>${new Date().toLocaleTimeString()} — ${text}</div><div>${actor}</div>`;
+        div.innerHTML = `<div>${new Date().toLocaleTimeString()} — ${text}</div><div>${actor}</div>`;
         tl.appendChild(div);
       }
 
       function notify(msg) {
         const el = document.createElement("div");
-        el.className =
-          "fixed right-6 bottom-6 bg-gray-800 border border-gray-700 text-sm text-gray-200 px-4 py-2 rounded shadow";
+        el.className = "fixed right-6 bottom-6 bg-gray-800 border border-gray-700 text-sm text-gray-200 px-4 py-2 rounded shadow";
         el.textContent = msg;
         document.body.appendChild(el);
         setTimeout(() => el.remove(), 3000);
@@ -333,8 +270,7 @@
       // --- OPERATOR FUNCTIONS ---
       function escalate() {
         document.getElementById("prioTag").textContent = "CRITISCH";
-        document.getElementById("prioTag").className =
-          "font-semibold text-red-400";
+        document.getElementById("prioTag").className = "font-semibold text-red-400";
         addTimeline("Incident geëscaleerd", "Operator");
         notify("Escaleer: Beveiliging gewaarschuwd");
       }
@@ -357,11 +293,10 @@
           conf = Math.min(95, conf + 12);
           document.getElementById("conf").textContent = conf + "%";
           addTimeline("Liveness check geslaagd", "AI");
-          notify("Liveness check geslaagd (score 98%)");
+          notify("Liveness check geslaagd (score " + conf + "%)");
         }, 2000);
       }
 
-      // --- ROLE SWITCH ---
       function switchPerspective(role) {
         const opControls = document.getElementById("operatorControls");
         const opBtns = document.getElementById("operatorButtons");
@@ -388,38 +323,18 @@
         }
       }
 
-      // --- STAKEHOLDER FUNCTIONS ---
       function submitFeedback() {
         const fb = document.getElementById("feedback").value.trim();
-        if (!fb) {
-          notify("Voer eerst feedback in");
-          return;
-        }
+        if (!fb) { notify("Voer eerst feedback in"); return; }
         addTimeline("Feedback ontvangen: " + fb, "Stakeholder");
         notify("Feedback verzonden");
         document.getElementById("feedback").value = "";
       }
 
-      function stakeholderApprove() {
-        addTimeline("Stakeholder keurde actie goed", "Stakeholder");
-        notify("Actie goedgekeurd");
-      }
-
-      function stakeholderReject() {
-        addTimeline("Stakeholder wees actie af", "Stakeholder");
-        notify("Actie afgekeurd");
-      }
-
-      function stakeholderRequestContext() {
-        addTimeline("Stakeholder vroeg om extra context", "Stakeholder");
-        notify("Contextverzoek verzonden");
-      }
-
-      function addAudit(text) {
-        addTimeline("Audit: " + text, "Operator");
-      }
+      function stakeholderApprove() { addTimeline("Stakeholder keurde actie goed", "Stakeholder"); notify("Actie goedgekeurd"); }
+      function stakeholderReject() { addTimeline("Stakeholder wees actie af", "Stakeholder"); notify("Actie afgekeurd"); }
+      function stakeholderRequestContext() { addTimeline("Stakeholder vroeg om extra context", "Stakeholder"); notify("Contextverzoek verzonden"); }
+      function addAudit(text) { addTimeline("Audit: " + text, "Operator"); }
     </script>
   </body>
 </html>
-
-<!-- ending -->
