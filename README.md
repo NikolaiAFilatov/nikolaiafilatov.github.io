@@ -103,7 +103,7 @@
                 </p>
               </div>
 
-              <div class="flex items-center gap-2">
+              <div id="operatorControls" class="flex items-center gap-2">
                 <button
                   onclick="escalate()"
                   class="px-3 py-1 rounded-lg bg-danger text-black text-sm font-semibold"
@@ -193,7 +193,7 @@
               >
             </div>
 
-            <div class="mt-4 flex gap-3 text-sm">
+            <div id="operatorButtons" class="mt-4 flex gap-3 text-sm">
               <button
                 onclick="tagFalsePositive()"
                 class="px-3 py-2 rounded-lg bg-gray-700"
@@ -228,7 +228,7 @@
         </section>
 
         <!-- Right column -->
-        <aside class="space-y-4">
+        <aside id="stakeholderPanel" class="space-y-4 hidden">
           <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
             <h4 class="text-lg font-semibold">Stakeholder Acties</h4>
             <p class="text-sm text-gray-400 mt-1">
@@ -241,12 +241,24 @@
                 class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm"
                 placeholder="Voer feedback of besluit in..."
               ></textarea>
-              <div class="mt-2 flex gap-2 justify-end">
+              <div class="mt-2 flex flex-wrap gap-2 justify-end">
                 <button
                   onclick="stakeholderApprove()"
                   class="px-3 py-1 rounded-lg bg-success text-black text-sm"
                 >
                   ✅ Goedkeuren
+                </button>
+                <button
+                  onclick="stakeholderReject()"
+                  class="px-3 py-1 rounded-lg bg-danger text-black text-sm"
+                >
+                  ❌ Afkeuren
+                </button>
+                <button
+                  onclick="stakeholderRequestContext()"
+                  class="px-3 py-1 rounded-lg bg-warn text-black text-sm"
+                >
+                  📄 Meer context vragen
                 </button>
                 <button
                   onclick="submitFeedback()"
@@ -278,14 +290,13 @@
       ];
 
       let conf = 68;
-      let ethScore = 72;
 
       document.addEventListener("DOMContentLoaded", () => {
         const now = new Date();
         document.getElementById("timeNow").textContent = now.toLocaleTimeString();
         document.getElementById("dateNow").textContent = now.toLocaleDateString();
         document.getElementById("incidentId").textContent =
-          "2025-" + now.getMonth() + "-" + now.getDate() + "-001";
+          "2025-" + (now.getMonth() + 1) + "-" + now.getDate() + "-001";
 
         randomizeDetection();
       });
@@ -348,10 +359,22 @@
       }
 
       function switchPerspective(p) {
+        const opControls = document.getElementById("operatorControls");
+        const opBtns = document.getElementById("operatorButtons");
+        const shPanel = document.getElementById("stakeholderPanel");
+
         if (p === "stakeholder") {
-          document.querySelector("aside").classList.remove("hidden");
+          shPanel.classList.remove("hidden");
+          opControls.classList.add("hidden");
+          opBtns.classList.add("hidden");
+          document.getElementById("btnSt").classList.add("bg-primary", "text-black");
+          document.getElementById("btnOp").classList.remove("bg-primary", "text-black");
         } else {
-          document.querySelector("aside").classList.remove("hidden");
+          shPanel.classList.add("hidden");
+          opControls.classList.remove("hidden");
+          opBtns.classList.remove("hidden");
+          document.getElementById("btnOp").classList.add("bg-primary", "text-black");
+          document.getElementById("btnSt").classList.remove("bg-primary", "text-black");
         }
       }
 
@@ -369,6 +392,20 @@
       function stakeholderApprove() {
         addTimeline("Stakeholder keurde actie goed", "Stakeholder");
         notify("Actie goedgekeurd");
+      }
+
+      function stakeholderReject() {
+        addTimeline("Stakeholder wees actie af", "Stakeholder");
+        notify("Actie afgekeurd");
+      }
+
+      function stakeholderRequestContext() {
+        addTimeline("Stakeholder vroeg om extra context", "Stakeholder");
+        notify("Contextverzoek verzonden");
+      }
+
+      function addAudit(text) {
+        addTimeline("Audit: " + text, "Operator");
       }
     </script>
   </body>
